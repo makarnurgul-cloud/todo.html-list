@@ -339,24 +339,52 @@
 }
 
         // UPDATE - тапсырманы немесе орындалу күйін өзгерту
-        function updateTodo(id, changes) {
-            const todo = todos.find((item) => String(item.id) === String(id));
-            if (!todo) return;
+        // UPDATE - Серверде де, браузерде де жаңарту
+async function updateTodo(id, changes) {
+    try {
+        // 1. Серверге PATCH сұранысын жібереміз
+        const response = await fetch(`https://dummyjson.com/todos/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(changes)
+        });
 
+        const updatedData = await response.json();
+
+        // 2. Жергілікті массивтен тапсырманы тауып жаңартамыз
+        const todo = todos.find((item) => String(item.id) === String(id));
+        if (todo) {
             Object.assign(todo, changes);
             saveTodos();
             displayTodos(todos);
         }
 
-        // DELETE - тапсырманы өшіру
-        function deleteTodo(id) {
-            const answer = confirm("Бұл тапсырманы өшіргіңіз келе ме?");
-            if (!answer) return;
+    } catch (error) {
+        console.error("Жаңарту кезінде қате шықты:", error);
+    }
+}
 
-            todos = todos.filter((todo) => String(todo.id) !== String(id));
-            saveTodos();
-            displayTodos(todos);
-        }
+        // DELETE - тапсырманы өшіру
+        // DELETE - Серверден де, жергілікті жадтан да өшіру
+async function deleteTodo(id) {
+    const answer = confirm("Бұл тапсырманы өшіргіңіз келе ме?");
+    if (!answer) return;
+
+    try {
+        // Серверге DELETE сұранысы
+        await fetch(`https://dummyjson.com/todos/${id}`, {
+            method: "DELETE"
+        });
+
+        // Жергілікті тізімнен де өшіреміз (String арқылы қауіпсіз салыстыру)
+        todos = todos.filter((todo) => String(todo.id) !== String(id));
+        saveTodos();
+        displayTodos(todos);
+
+    } catch (error) {
+        console.error("Өшіру кезінде қате шықты:", error);
+    }
+}
 
         // Бағдарлама ашылғанда тапсырмаларды жүктеу
         getTodos();
