@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Күнделікті тапсырмалар</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --text: #f3f5ff;
+            --muted: #9aa7c2;
+            --purple: #a879ff;
+            --blue: #55b8ff;
+            --border: rgba(255, 255, 255, .1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 56px 20px;
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(ellipse at 15% 10%, rgba(123, 77, 220, .25), transparent 38%),
+                radial-gradient(ellipse at 90% 75%, rgba(50, 150, 220, .18), transparent 36%),
+                #090d18;
+        }
+
+        .container {
+            width: min(720px, 100%);
+            margin: 0 auto;
+            padding: clamp(22px, 5vw, 40px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: linear-gradient(145deg, rgba(24, 32, 52, .9), rgba(14, 20, 35, .88));
+            box-shadow: 0 26px 80px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .04);
+            backdrop-filter: blur(18px);
+        }
+
+        h1 {
+            margin: 0 0 28px;
+            background: linear-gradient(100deg, #d0b4ff, #78caff 70%, #7be8d0);
+            background-clip: text;
+            color: transparent;
+            font-size: clamp(30px, 6vw, 42px);
+            letter-spacing: -.05em;
+            text-align: center;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .add-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 0;
+            padding: 13px 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255, 255, 255, .05);
+            color: var(--text);
+            font: inherit;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        input[type="text"]::placeholder {
+            color: #78849e;
+        }
+
+        input[type="text"]:focus {
+            border-color: rgba(168, 121, 255, .7);
+            box-shadow: 0 0 0 3px rgba(168, 121, 255, .12);
+        }
+
+        button {
+            padding: 11px 15px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 650;
+            transition: transform .18s, background .18s, border-color .18s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        .add-btn {
+            border-color: rgba(168, 121, 255, .4);
+            background: linear-gradient(110deg, rgba(168, 121, 255, .28), rgba(85, 184, 255, .2));
+            color: #f2eaff;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(110deg, rgba(168, 121, 255, .4), rgba(85, 184, 255, .3));
+        }
+
+        .todo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 10px;
+            padding: 13px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .035);
+            transition: border-color .2s, background .2s, transform .2s;
+        }
+
+        .todo:hover {
+            transform: translateY(-1px);
+            border-color: rgba(85, 184, 255, .25);
+            background: rgba(255, 255, 255, .055);
+        }
+
+        .todo input[type="checkbox"] {
+            flex: 0 0 auto;
+            width: 17px;
+            height: 17px;
+            accent-color: #a879ff;
+            cursor: pointer;
+        }
+
+        .todo-text {
+            flex: 1;
+            overflow-wrap: anywhere;
+            line-height: 1.5;
+        }
+
+        .completed {
+            color: #7f8aa1;
+            text-decoration: line-through;
+        }
+
+        .edit-btn {
+            border-color: rgba(85, 184, 255, .2);
+            background: rgba(85, 184, 255, .1);
+            color: #a9ddff;
+        }
+
+        .edit-btn:hover {
+            background: rgba(85, 184, 255, .18);
+        }
+
+        .delete-btn {
+            border-color: rgba(255, 104, 132, .2);
+            background: rgba(255, 104, 132, .1);
+            color: #ff9eae;
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 104, 132, .2);
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 26px 13px;
+            }
+
+            .container {
+                padding: 21px 15px;
+                border-radius: 19px;
+            }
+
+            .add-box {
+                flex-direction: column;
+            }
+
+            .add-btn {
+                min-height: 44px;
+            }
+
+            .todo {
+                flex-wrap: wrap;
+            }
+
+            .todo-text {
+                min-width: calc(100% - 35px);
+            }
+
+            .edit-btn,
+            .delete-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Тапсырмалар тізімі</h1>
+        <div class="add-box">
+            <input
+                type="text"
+                id="todoInput"
+                placeholder="Жаңа тапсырма енгізіңіз"
+            >
+            <button class="add-btn" onclick="addTodo()">
+                Қосу
+            </button>
+        </div>
+        <div id="todoList"></div>
+    </div>
+    <script>
+        // DummyJSON тек бастапқы тапсырмаларды береді.
+        // Өзгерістер осы браузерде localStorage арқылы сақталады.
+        const API_URL = "https://dummyjson.com/todos";
+        const STORAGE_KEY = "student-todo-list";
+        const todoInput = document.getElementById("todoInput");
+        const todoList = document.getElementById("todoList");
+        let todos = [];
+
+        function saveTodos() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+        }
+
+        // READ - тапсырмаларды көрсету
+        async function getTodos() {
+            const savedTodos = localStorage.getItem(STORAGE_KEY);
+
+            if (savedTodos !== null) {
+                try {
+                    const parsedTodos = JSON.parse(savedTodos);
+                    if (Array.isArray(parsedTodos)) {
+                        todos = parsedTodos;
+                        displayTodos(todos);
+                        return;
+                    }
+                } catch (error) {
+                    localStorage.removeItem(STORAGE_KEY);
+                }
+            }
+
+            try {
+                const response = await fetch(API_URL + "?limit=10");
+                if (!response.ok) {
+                    throw new Error("Тапсырмаларды жүктеу мүмкін болмады.");
+                }
+
+                const data = await response.json();
+                todos = Array.isArray(data.todos) ? data.todos : [];
+                saveTodos();
+                displayTodos(todos);
+            } catch (error) {
+                console.error("Қате:", error);
+                todoList.textContent = "Тапсырмалар жүктелмеді. Интернет байланысын тексеріңіз.";
+            }
+        }
+
+        // Тапсырмаларды экранға шығару
+        function displayTodos(items) {
+            todoList.replaceChildren();
+
+            items.forEach((todo) => {
+                const row = document.createElement("div");
+                row.className = "todo";
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = Boolean(todo.completed);
+                checkbox.setAttribute("aria-label", "Тапсырманы орындалды деп белгілеу");
+                checkbox.addEventListener("change", () => {
+                    updateTodo(todo.id, { completed: checkbox.checked });
+                });
+
+                const text = document.createElement("span");
+                text.className = "todo-text";
+                text.textContent = todo.todo;
+                if (todo.completed) {
+                    text.classList.add("completed");
+                }
+
+                const editButton = document.createElement("button");
+                editButton.type = "button";
+                editButton.className = "edit-btn";
+                editButton.textContent = "Өзгерту";
+                editButton.addEventListener("click", () => {
+                    const newText = prompt("Жаңа тапсырманы енгізіңіз:", todo.todo);
+                    if (newText !== null && newText.trim() !== "") {
+                        updateTodo(todo.id, { todo: newText.trim() });
+                    }
+                });
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "delete-btn";
+                deleteButton.textContent = "Өшіру";
+                deleteButton.addEventListener("click", () => {
+                    deleteTodo(todo.id);
+                });
+
+                row.append(checkbox, text, editButton, deleteButton);
+                todoList.appendChild(row);
+            });
+        }
+
+        // CREATE - жаңа тапсырма қосу
+        function addTodo() {
+            const text = todoInput.value.trim();
+
+            if (!text) {
+                alert("Тапсырма енгізіңіз!");
+                return;
+            }
+
+            const newTodo = {
+                id: "local-" + Date.now(),
+                todo: text,
+                completed: false,
+                userId: 1
+            };
+
+            todos.unshift(newTodo);
+            saveTodos();
+            displayTodos(todos);
+            todoInput.value = "";
+        }
+
+        // UPDATE - тапсырманы немесе орындалу күйін өзгерту
+        function updateTodo(id, changes) {
+            const todo = todos.find((item) => String(item.id) === String(id));
+            if (!todo) return;
+
+            Object.assign(todo, changes);
+            saveTodos();
+            displayTodos(todos);
+        }
+
+        // DELETE - тапсырманы өшіру
+        function deleteTodo(id) {
+            const answer = confirm("Бұл тапсырманы өшіргіңіз келе ме?");
+            if (!answer) return;
+
+            todos = todos.filter((todo) => String(todo.id) !== String(id));
+            saveTodos();
+            displayTodos(todos);
+        }
+
+        // Бағдарлама ашылғанда тапсырмаларды жүктеу
+        getTodos();
+    </script>
+</body>
+</html>
