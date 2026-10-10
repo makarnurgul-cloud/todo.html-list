@@ -199,9 +199,9 @@
 <body>
     <div class="container">
         <h1>Тапсырмалар тізімі</h1>
-        <div class="add-box">
+        <div class="add-box">   // қосымша блок
             <input
-                type="text"
+                type="text" 
                 id="todoInput"
                 placeholder="Жаңа тапсырма енгізіңіз"
             >
@@ -224,7 +224,7 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
         }
 
-        // READ - тапсырмаларды көрсету
+        // серверден малимет алу
         async function getTodos() {
             const savedTodos = localStorage.getItem(STORAGE_KEY);
 
@@ -259,9 +259,9 @@
 
         // Тапсырмаларды экранға шығару
         function displayTodos(items) {
-            todoList.replaceChildren();
+            todoList.replaceChildren(); \\ ескі элменттер тазарту
 
-            items.forEach((todo) => {
+            items.forEach((todo) => { \\жеке тапсырма арқылы өтетін цикл басталуы
                 const row = document.createElement("div");
                 row.className = "todo";
 
@@ -270,7 +270,7 @@
                 checkbox.checked = Boolean(todo.completed);
                 checkbox.setAttribute("aria-label", "Тапсырманы орындалды деп белгілеу");
                 checkbox.addEventListener("change", () => {
-                    updateTodo(todo.id, { completed: checkbox.checked });
+                    updateTodo(todo.id, { completed: checkbox.checked }); 
                 });
 
                 const text = document.createElement("span");
@@ -305,26 +305,38 @@
         }
 
         // CREATE - жаңа тапсырма қосу
-        function addTodo() {
-            const text = todoInput.value.trim();
+        async function addTodo() {
+    const text = todoInput.value.trim();
 
-            if (!text) {
-                alert("Тапсырма енгізіңіз!");
-                return;
-            }
+    if (!text) {
+        alert("Тапсырма енгізіңіз!");
+        return;
+    }
 
-            const newTodo = {
-                id: "local-" + Date.now(),
+    try {
+        // Серверге POST методы арқылы жаңа тапсырма жіберу
+        const response = await fetch("https://dummyjson.com/todos/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
                 todo: text,
                 completed: false,
                 userId: 1
-            };
+            })
+        });
 
-            todos.unshift(newTodo);
-            saveTodos();
-            displayTodos(todos);
-            todoInput.value = "";
-        }
+        const newTodo = await response.json();
+
+        // Серверден қайтқан жаңа тапсырманы тізімнің басына қосамыз
+        todos.unshift(newTodo);
+        saveTodos();
+        displayTodos(todos);
+        todoInput.value = "";
+
+    } catch (error) {
+        console.error("Қосу кезінде қате шықты:", error);
+    }
+}
 
         // UPDATE - тапсырманы немесе орындалу күйін өзгерту
         function updateTodo(id, changes) {
