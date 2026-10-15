@@ -1,393 +1,943 @@
 <!DOCTYPE html>
 <html lang="kk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Күнделікті тапсырмалар</title>
-    <style>
-        :root {
-            color-scheme: dark;
-            --text: #f3f5ff;
-            --muted: #9aa7c2;
-            --purple: #a879ff;
-            --blue: #55b8ff;
-            --border: rgba(255, 255, 255, .1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d18">
+  <title>Студенттер портфолиосы — тапсырмалар</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d18;
+      --panel: rgba(20, 28, 46, .83);
+      --text: #f3f5ff;
+      --muted: #98a5c0;
+      --purple: #ad82ff;
+      --blue: #66c2ff;
+      --mint: #64e7c3;
+      --border: rgba(255, 255, 255, .1);
+      --danger: #ff8295;
+    }
 
-        * {
-            box-sizing: border-box;
-        }
+    * { box-sizing: border-box; }
 
-        body {
-            min-height: 100vh;
-            margin: 0;
-            padding: 56px 20px;
-            color: var(--text);
-            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            background:
-                radial-gradient(ellipse at 15% 10%, rgba(123, 77, 220, .25), transparent 38%),
-                radial-gradient(ellipse at 90% 75%, rgba(50, 150, 220, .18), transparent 36%),
-                #090d18;
-        }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 30px;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 8% 8%, rgba(111, 67, 207, .22), transparent 34%),
+        radial-gradient(ellipse at 94% 80%, rgba(31, 133, 187, .16), transparent 34%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-        .container {
-            width: min(720px, 100%);
-            margin: 0 auto;
-            padding: clamp(22px, 5vw, 40px);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            background: linear-gradient(145deg, rgba(24, 32, 52, .9), rgba(14, 20, 35, .88));
-            box-shadow: 0 26px 80px rgba(0, 0, 0, .38), inset 0 1px rgba(255, 255, 255, .04);
-            backdrop-filter: blur(18px);
-        }
+    button, input, select { font: inherit; }
 
-        h1 {
-            margin: 0 0 28px;
-            background: linear-gradient(100deg, #d0b4ff, #78caff 70%, #7be8d0);
-            background-clip: text;
-            color: transparent;
-            font-size: clamp(30px, 6vw, 42px);
-            letter-spacing: -.05em;
-            text-align: center;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1400px, 100%);
+      margin: 0 auto 24px;
+    }
 
-        .add-box {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        input[type="text"] {
-            flex: 1;
-            min-width: 0;
-            padding: 13px 15px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            outline: none;
-            background: rgba(255, 255, 255, .05);
-            color: var(--text);
-            font: inherit;
-            transition: border-color .2s, box-shadow .2s;
-        }
+    .brand-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border: 1px solid rgba(173, 130, 255, .4);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(173, 130, 255, .25), rgba(102, 194, 255, .12));
+      color: #dbc8ff;
+      font-size: 20px;
+    }
 
-        input[type="text"]::placeholder {
-            color: #78849e;
-        }
+    .brand-title { margin: 0; font-size: 15px; font-weight: 750; }
+    .brand-subtitle { margin: 4px 0 0; color: var(--muted); font-size: 11px; }
 
-        input[type="text"]:focus {
-            border-color: rgba(168, 121, 255, .7);
-            box-shadow: 0 0 0 3px rgba(168, 121, 255, .12);
-        }
+    .top-pill {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .04);
+      color: #c6b2ff;
+      font-size: 11px;
+      font-weight: 700;
+    }
 
-        button {
-            padding: 11px 15px;
-            border: 1px solid transparent;
-            border-radius: 10px;
-            cursor: pointer;
-            font: inherit;
-            font-size: 13px;
-            font-weight: 650;
-            transition: transform .18s, background .18s, border-color .18s;
-        }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(290px, .84fr) minmax(0, 1.5fr);
+      gap: 20px;
+      width: min(1400px, 100%);
+      margin: 0 auto;
+      align-items: start;
+    }
 
-        button:hover {
-            transform: translateY(-1px);
-        }
+    .panel {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(24, 33, 54, .88), rgba(13, 19, 33, .88));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .28), inset 0 1px rgba(255, 255, 255, .035);
+      backdrop-filter: blur(18px);
+    }
 
-        .add-btn {
-            border-color: rgba(168, 121, 255, .4);
-            background: linear-gradient(110deg, rgba(168, 121, 255, .28), rgba(85, 184, 255, .2));
-            color: #f2eaff;
-        }
+    .profile-panel { padding: 26px; }
+    .tasks-panel { min-height: 650px; padding: 26px; }
 
-        .add-btn:hover {
-            background: linear-gradient(110deg, rgba(168, 121, 255, .4), rgba(85, 184, 255, .3));
-        }
+    .eyebrow {
+      margin: 0 0 10px;
+      color: #c3a7ff;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
 
-        .todo {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            margin-bottom: 10px;
-            padding: 13px;
-            border: 1px solid rgba(255, 255, 255, .08);
-            border-radius: 14px;
-            background: rgba(255, 255, 255, .035);
-            transition: border-color .2s, background .2s, transform .2s;
-        }
+    h1, h2, h3, p { margin-top: 0; }
 
-        .todo:hover {
-            transform: translateY(-1px);
-            border-color: rgba(85, 184, 255, .25);
-            background: rgba(255, 255, 255, .055);
-        }
+    .panel-title {
+      margin-bottom: 8px;
+      font-size: clamp(24px, 3vw, 32px);
+      letter-spacing: -.045em;
+    }
 
-        .todo input[type="checkbox"] {
-            flex: 0 0 auto;
-            width: 17px;
-            height: 17px;
-            accent-color: #a879ff;
-            cursor: pointer;
-        }
+    .gradient-text {
+      background: linear-gradient(100deg, #d1b4ff, #70c9ff 72%, #70e9ca);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .todo-text {
-            flex: 1;
-            overflow-wrap: anywhere;
-            line-height: 1.5;
-        }
+    .intro {
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
 
-        .completed {
-            color: #7f8aa1;
-            text-decoration: line-through;
-        }
+    .university-card {
+      margin-bottom: 18px;
+      padding: 14px;
+      border: 1px solid rgba(102, 194, 255, .18);
+      border-radius: 15px;
+      background: rgba(102, 194, 255, .06);
+    }
 
-        .edit-btn {
-            border-color: rgba(85, 184, 255, .2);
-            background: rgba(85, 184, 255, .1);
-            color: #a9ddff;
-        }
+    .university-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
 
-        .edit-btn:hover {
-            background: rgba(85, 184, 255, .18);
-        }
+    .university-name {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
 
-        .delete-btn {
-            border-color: rgba(255, 104, 132, .2);
-            background: rgba(255, 104, 132, .1);
-            color: #ff9eae;
-        }
+    .university-english {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
 
-        .delete-btn:hover {
-            background: rgba(255, 104, 132, .2);
-        }
+    .student-card {
+      margin-top: 13px;
+      padding: 17px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, .035);
+    }
 
-        @media (max-width: 520px) {
-            body {
-                padding: 26px 13px;
-            }
+    .student-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
 
-            .container {
-                padding: 21px 15px;
-                border-radius: 19px;
-            }
+    .avatar {
+      display: grid;
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 15px;
+      background: linear-gradient(135deg, #a978fa, #4d8fdc);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 0 6px 20px rgba(117, 104, 234, .2);
+    }
 
-            .add-box {
-                flex-direction: column;
-            }
+    .student-card:nth-of-type(2) .avatar {
+      background: linear-gradient(135deg, #ea83bd, #8f78ec);
+    }
 
-            .add-btn {
-                min-height: 44px;
-            }
+    .student-name { margin: 0 0 4px; font-size: 15px; font-weight: 750; }
+    .student-role { margin: 0; color: #c7b3ff; font-size: 11px; }
 
-            .todo {
-                flex-wrap: wrap;
-            }
+    .student-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin: 0;
+    }
 
-            .todo-text {
-                min-width: calc(100% - 35px);
-            }
+    .student-details div {
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .035);
+    }
 
-            .edit-btn,
-            .delete-btn {
-                flex: 1;
-            }
-        }
-    </style>
+    .student-details dt { margin-bottom: 4px; color: var(--muted); font-size: 10px; }
+    .student-details dd { margin: 0; font-size: 11px; font-weight: 650; }
+
+    .skills-title {
+      margin: 18px 0 9px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 750;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .skills-list { display: flex; flex-wrap: wrap; gap: 7px; }
+
+    .skill {
+      padding: 6px 9px;
+      border: 1px solid rgba(173, 130, 255, .2);
+      border-radius: 999px;
+      background: rgba(173, 130, 255, .08);
+      color: #d2beff;
+      font-size: 10px;
+      font-weight: 650;
+    }
+
+    .tasks-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .tasks-heading .panel-title { margin-bottom: 6px; }
+    .tasks-heading .intro { margin-bottom: 0; }
+
+    .task-count {
+      flex: 0 0 auto;
+      min-width: 42px;
+      padding: 9px 12px;
+      border: 1px solid rgba(173, 130, 255, .25);
+      border-radius: 12px;
+      background: rgba(173, 130, 255, .1);
+      color: #ddccff;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .filter-row label { color: var(--muted); font-size: 12px; }
+
+    select, input[type="text"] {
+      min-height: 42px;
+      padding: 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: #11192a;
+      color: var(--text);
+      font: inherit;
+      font-size: 12px;
+    }
+
+    select:focus, input[type="text"]:focus {
+      border-color: rgba(173, 130, 255, .65);
+      box-shadow: 0 0 0 3px rgba(173, 130, 255, .1);
+    }
+
+    .filter-row select { min-width: 190px; }
+
+    .add-form {
+      display: grid;
+      grid-template-columns: minmax(150px, 1fr) minmax(150px, .55fr) auto;
+      gap: 9px;
+      margin-bottom: 19px;
+    }
+
+    .add-form input::placeholder { color: #75819a; }
+
+    .primary-button, .task-button {
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid rgba(173, 130, 255, .35);
+      border-radius: 11px;
+      background: linear-gradient(110deg, rgba(173, 130, 255, .22), rgba(102, 194, 255, .14));
+      color: #eee6ff;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 750;
+      transition: transform .18s, background .18s, border-color .18s;
+    }
+
+    .primary-button:hover, .task-button:hover { transform: translateY(-1px); }
+    .primary-button:hover { background: rgba(173, 130, 255, .3); }
+
+    .todo-list { display: grid; gap: 9px; }
+
+    .todo-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 13px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .035);
+      transition: border-color .18s, background .18s;
+    }
+
+    .todo-item:hover {
+      border-color: rgba(102, 194, 255, .25);
+      background: rgba(255, 255, 255, .055);
+    }
+
+    .todo-checkbox {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--purple);
+      cursor: pointer;
+    }
+
+    .todo-text {
+      margin: 0 0 5px;
+      overflow-wrap: anywhere;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .todo-text.completed { color: #7e8aa3; text-decoration: line-through; }
+
+    .todo-owner {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .todo-actions { display: flex; gap: 7px; }
+
+    .task-button {
+      min-height: 34px;
+      padding: 0 10px;
+      border-color: rgba(102, 194, 255, .2);
+      background: rgba(102, 194, 255, .09);
+      color: #a9ddff;
+    }
+
+    .task-button.delete {
+      border-color: rgba(255, 130, 149, .2);
+      background: rgba(255, 130, 149, .08);
+      color: #ff9eae;
+    }
+
+    .edit-dialog {
+      width: min(430px, calc(100% - 28px));
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 21px;
+      background: linear-gradient(145deg, #1a2338, #101827);
+      color: var(--text);
+      box-shadow: 0 30px 100px rgba(0, 0, 0, .5);
+    }
+
+    .edit-dialog::backdrop {
+      background: rgba(3, 6, 14, .72);
+      backdrop-filter: blur(6px);
+    }
+
+    .edit-dialog h2 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      letter-spacing: -.03em;
+    }
+
+    .edit-dialog p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .edit-dialog input {
+      width: 100%;
+      min-height: 46px;
+      margin-bottom: 17px;
+      padding: 0 13px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      outline: none;
+      background: rgba(255, 255, 255, .06);
+      color: var(--text);
+      font: inherit;
+      font-size: 13px;
+    }
+
+    .edit-dialog input:focus {
+      border-color: rgba(173, 130, 255, .7);
+      box-shadow: 0 0 0 3px rgba(173, 130, 255, .12);
+    }
+
+    .edit-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 9px;
+    }
+
+    .modal-button {
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .05);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .modal-button.save {
+      border-color: rgba(173, 130, 255, .4);
+      background: linear-gradient(110deg, rgba(173, 130, 255, .28), rgba(102, 194, 255, .18));
+      color: #f2eaff;
+    }
+
+    .modal-button.delete {
+      border-color: rgba(255, 130, 149, .35);
+      background: rgba(255, 130, 149, .13);
+      color: #ffb0bd;
+    }
+
+    .empty-state, .status-message {
+      padding: 18px;
+      border: 1px dashed var(--border);
+      border-radius: 13px;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .status-message {
+      margin: 0 0 12px;
+      padding: 9px 12px;
+      border: 0;
+      color: var(--mint);
+      text-align: left;
+    }
+
+    .footer {
+      width: min(1400px, 100%);
+      margin: 17px auto 0;
+      color: #77839b;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      body { padding: 22px; }
+      .workspace { grid-template-columns: 1fr; }
+      .profile-panel { order: 1; }
+      .tasks-panel { order: 2; min-height: 0; }
+      .student-profiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+      .student-card { margin-top: 0; }
+      .university-card { margin-bottom: 14px; }
+    }
+
+    @media (max-width: 620px) {
+      body { padding: 15px 12px; }
+      .topbar { margin-bottom: 15px; }
+      .top-pill { display: none; }
+      .workspace { gap: 14px; }
+      .profile-panel, .tasks-panel { padding: 18px; border-radius: 19px; }
+      .student-profiles { grid-template-columns: 1fr; }
+      .add-form { grid-template-columns: 1fr; }
+      .filter-row { align-items: flex-start; flex-direction: column; }
+      .filter-row select { width: 100%; }
+      .todo-item { grid-template-columns: auto minmax(0, 1fr); }
+      .todo-actions { grid-column: 2; }
+      .task-button { flex: 1; }
+    }
+
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid var(--purple);
+      outline-offset: 2px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Тапсырмалар тізімі</h1>
-        <div class="add-box">   
-            <input
-                type="text" 
-                id="todoInput"
-                placeholder="Жаңа тапсырма енгізіңіз"
-            >
-            <button class="add-btn" onclick="addTodo()">
-                Қосу
-            </button>
-        </div>
-        <div id="todoList"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">✦</div>
+      <div>
+        <p class="brand-title">Студенттер портфолиосы</p>
+        <p class="brand-subtitle">Профильдер мен оқу тапсырмалары</p>
+      </div>
     </div>
-    <script>
-        // DummyJSON тек бастапқы тапсырмаларды береді.
-        // Өзгерістер осы браузерде localStorage арқылы сақталады.
-        const API_URL = "https://dummyjson.com/todos";
-        const STORAGE_KEY = "student-todo-list";
-        const todoInput = document.getElementById("todoInput");
-        const todoList = document.getElementById("todoList");
-        let todos = [];
+    <span class="top-pill">ВТИПО · 3-курс</span>
+  </header>
 
-        function saveTodos() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-        }
+  <main class="workspace">
+    <aside class="panel profile-panel">
+      <p class="eyebrow">Студенттер портфолиосы</p>
+      <h1 class="panel-title">Біздің <span class="gradient-text">команда</span></h1>
+      <p class="intro">Студенттердің жеке ақпараты мен техникалық дағдылары.</p>
 
-        // серверден малимет алу
-        async function getTodos() {
-            const savedTodos = localStorage.getItem(STORAGE_KEY);
+      <div class="university-card">
+        <span class="university-label">Оқу орны</span>
+        <p class="university-name">
+          Астана халықаралық университеті
+          <span class="university-english">Astana International University</span>
+        </p>
+      </div>
 
-            if (savedTodos !== null) {
-                try {
-                    const parsedTodos = JSON.parse(savedTodos);
-                    if (Array.isArray(parsedTodos)) {
-                        todos = parsedTodos;
-                        displayTodos(todos);
-                        return;
-                    }
-                } catch (error) {
-                    localStorage.removeItem(STORAGE_KEY);
-                }
-            }
+      <div class="student-profiles">
+        <article class="student-card">
+          <div class="student-heading">
+            <div class="avatar" aria-hidden="true">МН</div>
+            <div>
+              <h2 class="student-name">Макар Нұргүл</h2>
+              <p class="student-role">ВТИПО студенті</p>
+            </div>
+          </div>
+          <dl class="student-details">
+            <div><dt>Мамандығы</dt><dd>ВТИПО</dd></div>
+            <div><dt>Курс</dt><dd>3-курс</dd></div>
+            <div><dt>Тобы</dt><dd>ВТИПО-303</dd></div>
+            <div><dt>Топ нөмірі</dt><dd>3-топ</dd></div>
+          </dl>
+        </article>
 
-            try {
-                const response = await fetch(API_URL + "?limit=10");
-                if (!response.ok) {
-                    throw new Error("Тапсырмаларды жүктеу мүмкін болмады.");
-                }
+        <article class="student-card">
+          <div class="student-heading">
+            <div class="avatar" aria-hidden="true">ХӘ</div>
+            <div>
+              <h2 class="student-name">Халел Әсел</h2>
+              <p class="student-role">ВТИПО студенті</p>
+            </div>
+          </div>
+          <dl class="student-details">
+            <div><dt>Мамандығы</dt><dd>ВТИПО</dd></div>
+            <div><dt>Курс</dt><dd>3-курс</dd></div>
+            <div><dt>Тобы</dt><dd>ВТИПО-303</dd></div>
+            <div><dt>Топ нөмірі</dt><dd>3-топ</dd></div>
+          </dl>
+        </article>
+      </div>
 
-                const data = await response.json();
-                todos = Array.isArray(data.todos) ? data.todos : [];
-                saveTodos();
-                displayTodos(todos);
-            } catch (error) {
-                console.error("Қате:", error);
-                todoList.textContent = "Тапсырмалар жүктелмеді. Интернет байланысын тексеріңіз.";
-            }
-        }
+      <h3 class="skills-title">Skills / Дағдылар</h3>
+      <div class="skills-list">
+        <span class="skill">HTML5</span>
+        <span class="skill">CSS3</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">DOM</span>
+        <span class="skill">Fetch API</span>
+        <span class="skill">Python</span>
+        <span class="skill">C++</span>
+        <span class="skill">MySQL</span>
+        <span class="skill">Cisco Packet Tracer</span>
+        <span class="skill">Git/GitHub</span>
+      </div>
+    </aside>
 
-        // Тапсырмаларды экранға шығару
-        function displayTodos(items) {
-            todoList.replaceChildren(); 
+    <section class="panel tasks-panel" aria-labelledby="tasksTitle">
+      <div class="tasks-heading">
+        <div>
+          <p class="eyebrow">Тапсырмаларды басқару</p>
+          <h2 class="panel-title" id="tasksTitle">To-Do <span class="gradient-text">list</span></h2>
+          <p class="intro">Тапсырма қосыңыз, студент бойынша сүзіңіз және орындалуын белгілеңіз.</p>
+        </div>
+        <span class="task-count" id="taskCount" aria-label="Тапсырмалар саны">0</span>
+      </div>
 
-            items.forEach((todo) => { 
-                const row = document.createElement("div");
-                row.className = "todo";
+      <div class="filter-row">
+        <label for="studentFilter">Тапсырмаларды көрсету:</label>
+        <select id="studentFilter">
+          <option value="all">Барлық студент</option>
+          <option value="makar">Макар Нұргүл</option>
+          <option value="asel">Халел Әсел</option>
+        </select>
+      </div>
 
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.checked = Boolean(todo.completed);
-                checkbox.setAttribute("aria-label", "Тапсырманы орындалды деп белгілеу");
-                checkbox.addEventListener("change", () => {
-                    updateTodo(todo.id, { completed: checkbox.checked }); 
-                });
+      <form class="add-form" id="taskForm">
+        <input
+          id="taskInput"
+          type="text"
+          placeholder="Жаңа тапсырманы енгізіңіз"
+          maxlength="180"
+          required
+          autocomplete="off"
+        >
+        <select id="taskStudent" aria-label="Тапсырмаға жауапты студентті таңдаңыз">
+          <option value="makar">Макар Нұргүл</option>
+          <option value="asel">Халел Әсел</option>
+        </select>
+        <button class="primary-button" type="submit">＋ Тапсырма қосу</button>
+      </form>
 
-                const text = document.createElement("span");
-                text.className = "todo-text";
-                text.textContent = todo.todo;
-                if (todo.completed) {
-                    text.classList.add("completed");
-                }
+      <p class="status-message" id="statusMessage" role="status" hidden></p>
+      <div class="todo-list" id="todoList" aria-live="polite"></div>
+    </section>
+  </main>
 
-                const editButton = document.createElement("button");
-                editButton.type = "button";
-                editButton.className = "edit-btn";
-                editButton.textContent = "Өзгерту";
-                editButton.addEventListener("click", () => {
-                    const newText = prompt("Жаңа тапсырманы енгізіңіз:", todo.todo);
-                    if (newText !== null && newText.trim() !== "") {
-                        updateTodo(todo.id, { todo: newText.trim() });
-                    }
-                });
+  <dialog class="edit-dialog" id="editDialog" aria-labelledby="editDialogTitle">
+    <form id="editTaskForm">
+      <h2 id="editDialogTitle">Тапсырманы өзгерту</h2>
+      <p>Жаңа мәтінді енгізіп, өзгертуді сақтаңыз.</p>
+      <input
+        id="editTaskInput"
+        type="text"
+        maxlength="180"
+        autocomplete="off"
+        aria-label="Тапсырманың жаңа мәтіні"
+        required
+      >
+      <div class="edit-actions">
+        <button class="modal-button" type="button" id="cancelEditButton">Болдырмау</button>
+        <button class="modal-button save" type="submit">Сақтау</button>
+      </div>
+    </form>
+  </dialog>
 
-                const deleteButton = document.createElement("button");
-                deleteButton.type = "button";
-                deleteButton.className = "delete-btn";
-                deleteButton.textContent = "Өшіру";
-                deleteButton.addEventListener("click", () => {
-                    deleteTodo(todo.id);
-                });
+  <dialog
+    class="edit-dialog"
+    id="deleteDialog"
+    aria-labelledby="deleteDialogTitle"
+    aria-describedby="deleteDialogMessage">
+    <form id="deleteTaskForm">
+      <h2 id="deleteDialogTitle">Тапсырманы өшіру</h2>
+      <p id="deleteDialogMessage">Бұл тапсырманы өшіргіңіз келе ме?</p>
+      <div class="edit-actions">
+        <button class="modal-button" type="button" id="cancelDeleteButton">Болдырмау</button>
+        <button class="modal-button delete" type="submit">Өшіру</button>
+      </div>
+    </form>
+  </dialog>
 
-                row.append(checkbox, text, editButton, deleteButton);
-                todoList.appendChild(row);
-            });
-        }
+  <footer class="footer">Студенттер портфолиосы · ВТИПО-303</footer>
 
-        // CREATE - жаңа тапсырма қосу
-        async function addTodo() {
-    const text = todoInput.value.trim();
+  <script>
+    const API_URL = "https://dummyjson.com/todos";
+    const STORAGE_KEY = "student-portfolio-todos-v2";
+    const STUDENTS = {
+      makar: { name: "Макар Нұргүл", userId: 1 },
+      asel: { name: "Халел Әсел", userId: 2 }
+    };
 
-    if (!text) {
-        alert("Тапсырма енгізіңіз!");
-        return;
+    const todoList = document.getElementById("todoList");
+    const taskForm = document.getElementById("taskForm");
+    const taskInput = document.getElementById("taskInput");
+    const taskStudent = document.getElementById("taskStudent");
+    const studentFilter = document.getElementById("studentFilter");
+    const taskCount = document.getElementById("taskCount");
+    const statusMessage = document.getElementById("statusMessage");
+    const editDialog = document.getElementById("editDialog");
+    const editTaskForm = document.getElementById("editTaskForm");
+    const editTaskInput = document.getElementById("editTaskInput");
+    const cancelEditButton = document.getElementById("cancelEditButton");
+    const deleteDialog = document.getElementById("deleteDialog");
+    const deleteTaskForm = document.getElementById("deleteTaskForm");
+    const deleteDialogMessage = document.getElementById("deleteDialogMessage");
+    const cancelDeleteButton = document.getElementById("cancelDeleteButton");
+
+    let tasks = [];
+    let statusTimer;
+    let editingTaskId = null;
+    let deletingTaskId = null;
+
+    function openEditDialog(task) {
+      editingTaskId = task.id;
+      editTaskInput.value = task.todo;
+      editDialog.showModal();
+      editTaskInput.focus();
+      editTaskInput.select();
     }
 
-    try {
-        // Серверге POST методы арқылы жаңа тапсырма жіберу
-        const response = await fetch("https://dummyjson.com/todos/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                todo: text,
-                completed: false,
-                userId: 1
-            })
+    function openDeleteDialog(task) {
+      deletingTaskId = task.id;
+      deleteDialogMessage.textContent = `«${task.todo}» тапсырмасын өшіргіңіз келе ме?`;
+      deleteDialog.showModal();
+    }
+
+    function saveTasks() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      } catch (error) {
+        console.error("localStorage-қа сақтау қатесі:", error);
+        showStatus("Браузердегі сақтау орнына жазу мүмкін болмады.");
+      }
+    }
+
+    function showStatus(message) {
+      statusMessage.textContent = message;
+      statusMessage.hidden = false;
+      clearTimeout(statusTimer);
+      statusTimer = setTimeout(() => {
+        statusMessage.hidden = true;
+      }, 3500);
+    }
+
+    function assignStudent(task, index) {
+      if (task.studentId === "makar" || task.studentId === "asel") {
+        return task.studentId;
+      }
+      if (Number(task.userId) === STUDENTS.asel.userId) return "asel";
+      if (Number(task.userId) === STUDENTS.makar.userId) return "makar";
+      return index % 2 === 0 ? "makar" : "asel";
+    }
+
+    function normalizeTasks(items) {
+      return items.map((task, index) => ({
+        ...task,
+        studentId: assignStudent(task, index)
+      }));
+    }
+
+    async function loadTasks() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved !== null) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            tasks = normalizeTasks(parsed);
+            renderTasks();
+            return;
+          }
+        }
+      } catch (error) {
+        console.warn("Сақталған тапсырмаларды оқу мүмкін болмады:", error);
+      }
+
+      try {
+        const response = await fetch(`${API_URL}?limit=10`);
+        if (!response.ok) throw new Error(`API қатесі: ${response.status}`);
+        const data = await response.json();
+        tasks = normalizeTasks(Array.isArray(data.todos) ? data.todos : []);
+        saveTasks();
+        renderTasks();
+      } catch (error) {
+        console.error("DummyJSON-нан жүктеу қатесі:", error);
+        tasks = [];
+        renderTasks();
+        showStatus("API-дан тапсырмалар жүктелмеді. Жаңа тапсырма қоса аласыз.");
+      }
+    }
+
+    function renderTasks() {
+      const filter = studentFilter.value;
+      const visibleTasks = filter === "all"
+        ? tasks
+        : tasks.filter((task) => task.studentId === filter);
+
+      taskCount.textContent = String(visibleTasks.length);
+      todoList.replaceChildren();
+
+      if (visibleTasks.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = filter === "all"
+          ? "Әзірге тапсырма жоқ. Жоғарыдан жаңа тапсырма қосыңыз."
+          : "Бұл студентке тапсырма әзірге тағайындалмаған.";
+        todoList.appendChild(empty);
+        return;
+      }
+
+      visibleTasks.forEach((task) => {
+        const item = document.createElement("article");
+        item.className = "todo-item";
+
+        const checkbox = document.createElement("input");
+        checkbox.className = "todo-checkbox";
+        checkbox.type = "checkbox";
+        checkbox.checked = Boolean(task.completed);
+        checkbox.setAttribute("aria-label", "Тапсырманы орындалды деп белгілеу");
+        checkbox.addEventListener("change", () => {
+          updateTask(task.id, { completed: checkbox.checked });
         });
 
-        const newTodo = await response.json();
+        const content = document.createElement("div");
+        const text = document.createElement("p");
+        text.className = "todo-text";
+        text.textContent = task.todo;
+        if (task.completed) text.classList.add("completed");
 
-        // Серверден қайтқан жаңа тапсырманы тізімнің басына қосамыз
-        todos.unshift(newTodo);
-        saveTodos();
-        displayTodos(todos);
-        todoInput.value = "";
+        const owner = document.createElement("span");
+        owner.className = "todo-owner";
+        owner.textContent = `👤 ${STUDENTS[task.studentId]?.name || "Студент белгісіз"}`;
+        content.append(text, owner);
 
-    } catch (error) {
-        console.error("Қосу кезінде қате шықты:", error);
+        const actions = document.createElement("div");
+        actions.className = "todo-actions";
+
+        const editButton = document.createElement("button");
+        editButton.className = "task-button";
+        editButton.type = "button";
+        editButton.textContent = "Өзгерту";
+        editButton.addEventListener("click", () => {
+          openEditDialog(task);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "task-button delete";
+        deleteButton.type = "button";
+        deleteButton.textContent = "Өшіру";
+        deleteButton.addEventListener("click", () => {
+          openDeleteDialog(task);
+        });
+
+        actions.append(editButton, deleteButton);
+        item.append(checkbox, content, actions);
+        todoList.appendChild(item);
+      });
     }
-}
 
-        // UPDATE - тапсырманы немесе орындалу күйін өзгерту
-        // UPDATE - Серверде де, браузерде де жаңарту
-async function updateTodo(id, changes) {
-    try {
-        // 1. Серверге PATCH сұранысын жібереміз
-        const response = await fetch(`https://dummyjson.com/todos/${id}`, {
+    async function addTask(event) {
+      event.preventDefault();
+      const text = taskInput.value.trim();
+      const studentId = taskStudent.value;
+      if (!text) return;
+
+      const localTask = {
+        id: `local-${Date.now()}`,
+        todo: text,
+        completed: false,
+        userId: STUDENTS[studentId].userId,
+        studentId
+      };
+
+      tasks.unshift(localTask);
+      saveTasks();
+      renderTasks();
+      taskInput.value = "";
+      showStatus(`Тапсырма қосылды: ${STUDENTS[studentId].name}`);
+
+      // DummyJSON жазу сұрауын қабылдайды, бірақ нәтижені серверде тұрақты сақтамайды.
+      try {
+        await fetch(`${API_URL}/add`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            todo: text,
+            completed: false,
+            userId: STUDENTS[studentId].userId
+          })
+        });
+      } catch (error) {
+        console.warn("API-ға жіберу сәтсіз болды; тапсырма localStorage-та сақталды.", error);
+      }
+    }
+
+    async function updateTask(id, changes) {
+      const task = tasks.find((item) => String(item.id) === String(id));
+      if (!task) return;
+
+      Object.assign(task, changes);
+      saveTasks();
+      renderTasks();
+      showStatus("Тапсырма жаңартылды.");
+
+      if (!String(id).startsWith("local-")) {
+        try {
+          await fetch(`${API_URL}/${encodeURIComponent(id)}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(changes)
-        });
-
-        const updatedData = await response.json();
-
-        // 2. Жергілікті массивтен тапсырманы тауып жаңартамыз
-        const todo = todos.find((item) => String(item.id) === String(id));
-        if (todo) {
-            Object.assign(todo, changes);
-            saveTodos();
-            displayTodos(todos);
+          });
+        } catch (error) {
+          console.warn("API жаңартуы сәтсіз болды; жергілікті өзгеріс сақталды.", error);
         }
-
-    } catch (error) {
-        console.error("Жаңарту кезінде қате шықты:", error);
+      }
     }
-}
 
-        // DELETE - тапсырманы өшіру
-        // DELETE - Серверден де, жергілікті жадтан да өшіру
-async function deleteTodo(id) {
-    const answer = confirm("Бұл тапсырманы өшіргіңіз келе ме?");
-    if (!answer) return;
+    async function deleteTask(id) {
+      const wasRemoteTask = !String(id).startsWith("local-");
+      tasks = tasks.filter((task) => String(task.id) !== String(id));
+      saveTasks();
+      renderTasks();
+      showStatus("Тапсырма өшірілді.");
 
-    try {
-        // Серверге DELETE сұранысы
-        await fetch(`https://dummyjson.com/todos/${id}`, {
-            method: "DELETE"
-        });
-
-        // Жергілікті тізімнен де өшіреміз (String арқылы қауіпсіз салыстыру)
-        todos = todos.filter((todo) => String(todo.id) !== String(id));
-        saveTodos();
-        displayTodos(todos);
-
-    } catch (error) {
-        console.error("Өшіру кезінде қате шықты:", error);
+      if (wasRemoteTask) {
+        try {
+          await fetch(`${API_URL}/${encodeURIComponent(id)}`, { method: "DELETE" });
+        } catch (error) {
+          console.warn("API-дан өшіру сәтсіз болды; жергілікті тапсырма өшірілді.", error);
+        }
+      }
     }
-}
 
-        // Бағдарлама ашылғанда тапсырмаларды жүктеу
-        getTodos();
-    </script>
+    editTaskForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const newText = editTaskInput.value.trim();
+      if (!newText || editingTaskId === null) return;
+
+      updateTask(editingTaskId, { todo: newText });
+      editDialog.close();
+      editingTaskId = null;
+    });
+
+    cancelEditButton.addEventListener("click", () => {
+      editDialog.close();
+      editingTaskId = null;
+    });
+
+    editDialog.addEventListener("close", () => {
+      editingTaskId = null;
+    });
+
+    deleteTaskForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (deletingTaskId === null) return;
+
+      const taskId = deletingTaskId;
+      deleteDialog.close();
+      deletingTaskId = null;
+      deleteTask(taskId);
+    });
+
+    cancelDeleteButton.addEventListener("click", () => {
+      deleteDialog.close();
+      deletingTaskId = null;
+    });
+
+    deleteDialog.addEventListener("close", () => {
+      deletingTaskId = null;
+    });
+
+    taskForm.addEventListener("submit", addTask);
+    studentFilter.addEventListener("change", renderTasks);
+    loadTasks();
+  </script>
 </body>
 </html>
